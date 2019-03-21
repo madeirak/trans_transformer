@@ -27,7 +27,7 @@ def en_segment(en_lst):
     return inputs
 
 def cn_segment(cn_lst):
-    cn_lst = [[char for char in jieba.cut(line) if char != ' '] for line in tqdm(cn_lst)]#提取jieba结果，丢弃空格
+    cn_lst = [[char for char in jieba.cut(line) if char != ' '] for line in cn_lst]#提取jieba结果，丢弃空格
     return cn_lst
 
 

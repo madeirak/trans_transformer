@@ -5,12 +5,12 @@ import os
 from transformer import Graph
 
 
-epoch = 10#20
-batch_size = 32#64
-data_count = 20000     #取训练集中的数据句数
+epoch = 30#20
+batch_size = 5#64
+data_count = 20    #取训练集中的数据句数
 
 
-with open('cn2en.txt', 'r', encoding='utf-8-sig') as f:
+with open('self.txt', 'r', encoding='utf-8-sig') as f:
     data = f.readlines()
     inputs = []
     outputs = []
@@ -20,10 +20,12 @@ with open('cn2en.txt', 'r', encoding='utf-8-sig') as f:
         outputs.append(cn[:-1])  # 去掉汉语标签句末标点
         inputs.append(en.replace(',', ' ,')[:-1].lower())  # 句中逗号后本有空格，在逗号前增加空格，然后将逗号按一个元素分隔，去掉句末标点，转为小写
 
-    # print(inputs[:10])
-    # print(outputs[274:276])
+    #print('分词前：',inputs[:10])
+    #print('分词前：',outputs[:10])
     inputs = cn_segment(inputs)
     outputs = en_segment(outputs)
+    #print('分词后：',inputs[:10])
+    #print('分词后：',outputs[:10])
     # print(outputs)
 
 
@@ -47,12 +49,12 @@ with tf.Session() as sess:
     merged = tf.summary.merge_all()
     sess.run(tf.global_variables_initializer())
     add_num = 0
-    if os.path.exists('model/checkpoint'):
-        print('loading  model...')
-        latest = tf.train.latest_checkpoint('model')  # 查找最新保存的检查点文件的文件名，latest_checkpoint(checkpoint_dir)
+    if os.path.exists('model_self/checkpoint'):
+        print('loading  model_self...')
+        latest = tf.train.latest_checkpoint('model_self')  # 查找最新保存的检查点文件的文件名，latest_checkpoint(checkpoint_dir)
         add_num = int(latest.split('_')[-1])
         saver.restore(sess, latest)#该save_path参数通常是先前从save()调用或调用返回的值 latest_checkpoint()
-    writer = tf.summary.FileWriter('model/tensorboard', tf.get_default_graph())
+    writer = tf.summary.FileWriter('model_self/tensorboard', tf.get_default_graph())
     for k in range(epoch):
         if k == 0 : print('\n-epoch',k +add_num+ 1, ':')
         else :      print('\n-epochs', k +add_num+ 1, ':')
@@ -71,6 +73,6 @@ with tf.Session() as sess:
 
         if (k+1) % 5 == 0:
             print('epochs', k+1, ': average loss = ', total_loss/batch_num)
-    saver.save(sess, 'model/model_%d' % (epoch + add_num))
+    saver.save(sess, 'model_self/model_self_%d' % (epoch + add_num))
     writer.close()
 
