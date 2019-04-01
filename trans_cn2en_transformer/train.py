@@ -5,12 +5,12 @@ import os
 from transformer import Graph
 
 
-epoch = 10#20
+epoch = 2#20
 batch_size = 32#64
 data_count = 20000     #取训练集中的数据句数
 
 
-with open('cn2en.txt', 'r', encoding='utf-8-sig') as f:
+with open('add.txt', 'r', encoding='utf-8-sig') as f:
     data = f.readlines()
     inputs = []
     outputs = []
@@ -53,6 +53,7 @@ with tf.Session() as sess:
         add_num = int(latest.split('_')[-1])
         saver.restore(sess, latest)#该save_path参数通常是先前从save()调用或调用返回的值 latest_checkpoint()
     writer = tf.summary.FileWriter('model/tensorboard', tf.get_default_graph())
+
     for k in range(epoch):
         if k == 0 : print('\n-epoch',k +add_num+ 1, ':')
         else :      print('\n-epochs', k +add_num+ 1, ':')

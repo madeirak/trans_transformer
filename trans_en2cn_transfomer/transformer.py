@@ -372,8 +372,8 @@ class Graph():
                                                    is_training=self.is_training,
                                                    causality=False)
 
-            ### Feed Forward
-            self.enc = feedforward(self.enc, num_units=[4 * self.hidden_units, self.hidden_units])
+                    ### Feed Forward
+                    self.enc = feedforward(self.enc, num_units=[4 * self.hidden_units, self.hidden_units])
 
 
 
@@ -419,7 +419,7 @@ class Graph():
                                                    num_heads=self.num_heads,
                                                    dropout_rate=self.dropout_rate,
                                                    is_training=self.is_training,
-                                                   causality=True,
+                                                   causality = False,
                                                    scope='vanilla_attention')
 
                     ### Feed Forward

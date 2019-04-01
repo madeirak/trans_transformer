@@ -63,15 +63,17 @@ with tf.Session() as sess:
         #print(line)
         line = line[0]
         x = np.array([encoder_vocab.index(hanzi) for hanzi in line])
-        x = x.reshape(1, -1)
+        x = x.reshape(1, -1)#包装,batch_size = 1
         #print(x)
         de_inp = [[decoder_vocab.index('<GO>')]]  #de_inp  =  decoder_inputs
         while True:
             y = np.array(de_inp)
             preds = sess.run(g.preds, {g.x: x, g.de_inp: y})
-            #print(preds)
+            #print('preds: ',preds)
             if preds[0][-1] == decoder_vocab.index('<EOS>'):
                 break
-            de_inp[0].append(preds[0][-1])
+
+            de_inp[0].append(preds[0][-1])#把此时间步的输出，接到下一时间步解码器的输入，保留之前所有输出结果，是因为要self-attention
+            #print('de_inp : ',de_inp,'\n')
         got = ' '.join(decoder_vocab[idx] for idx in de_inp[0][1:])
         print(got)

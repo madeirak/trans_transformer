@@ -70,8 +70,7 @@ def data_format(inputs,outputs,encoder_vocab,decoder_vocab):
     # 调整数据格式，解码器输入起始部分有个开始符号，输出句尾有个结束符号
     encoder_inputs = [[encoder_vocab.index(word) for word in line] for line in inputs]
     decoder_inputs = [[decoder_vocab.index('<GO>')] + [decoder_vocab.index(word) for word in line] for line in outputs]
-    decoder_targets = [[decoder_vocab.index(word) for word in line] + [decoder_vocab.index('<EOS>')] for line in
-                       outputs]
+    decoder_targets = [[decoder_vocab.index(word) for word in line] + [decoder_vocab.index('<EOS>')] for line in outputs]
     # print(decoder_inputs[:10])
     # print(decoder_targets[:10])
     return encoder_inputs,decoder_inputs,decoder_targets

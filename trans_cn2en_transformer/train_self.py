@@ -5,7 +5,7 @@ import os
 from transformer import Graph
 
 
-epoch = 30#20
+epoch = 40#20
 batch_size = 5#64
 data_count = 20    #取训练集中的数据句数
 
@@ -64,6 +64,7 @@ with tf.Session() as sess:
         for i in tqdm(range(batch_num)):
             #print('--------This is No.'+str(i+1)+'batch of No.'+str(k+1)+'epoch.--------')
             encoder_input, decoder_input, decoder_target = next(batch)
+            #print('encoder_input : ',encoder_input)
             feed = {g.x: encoder_input, g.y: decoder_target, g.de_inp:decoder_input}
             cost,_ = sess.run([g.mean_loss,g.train_op], feed_dict=feed)
             total_loss += cost
